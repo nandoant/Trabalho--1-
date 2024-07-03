@@ -9,10 +9,16 @@ export class ModalidadePaes{
         this.ID = this.geraId();
     }
 
-    private geraId(): number {
-        const timestamp = Date.now();
-        const random = Math.floor(Math.random() * 1000);
-        return parseInt(timestamp.toString().slice(-5) + random.toString().padStart(3, '0'));
+    public geraId(): number {
+        const random1 = this.randomNum();
+        const random2 = this.randomNum();
+        const yearLastTwoDigits = new Date().getFullYear().toString().slice(-2);
+
+        return parseInt(random1.toString().padStart(2, '0') + yearLastTwoDigits + random2.toString().padStart(2, '0'));
+    }
+
+    private randomNum(){
+        return Math.floor(Math.random() * 100);
     }
 
     public getNome(): string{

@@ -24,6 +24,10 @@ export class ModalidadeService{
         }
 
         const novaModalidade = new ModalidadePaes(nome, vegano);
+        while(this.modalidadeRepository.possui(novaModalidade.getID())){
+            novaModalidade.geraId();
+        }
+        
         this.modalidadeRepository.adicionar(novaModalidade);
     }
 

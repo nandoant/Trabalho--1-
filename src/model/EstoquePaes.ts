@@ -11,7 +11,7 @@ export class EstoquePaes{
         this.ID = this.geraId();
     }
 
-    private geraId(): number {
+    public geraId(): number {
         const timestamp = Date.now();
         const random = Math.floor(Math.random() * 1000);
         return parseInt(timestamp.toString().slice(-5) + random.toString().padStart(3, '0'));

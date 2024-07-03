@@ -39,6 +39,10 @@ export class EstoqueService {
         }
 
         const novoProduto = new EstoquePaes(modalidadeID, quantidade, precoVenda);
+        while (this.estoqueRepository.possui(novoProduto.getID())) {
+            novoProduto.geraId();
+        }
+
         this.estoqueRepository.adicionar(novoProduto);
     }
 

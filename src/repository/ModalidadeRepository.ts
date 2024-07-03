@@ -1,7 +1,7 @@
 import { ModalidadePaes } from "../model/ModalidadePaes";
 
 export class ModalidadeRepository{
-    modalidadePaes: ModalidadePaes[] = [];
+    private modalidadePaes: ModalidadePaes[] = [];
 
     public buscarTodas(): ModalidadePaes[]{
         return this.modalidadePaes;
@@ -25,6 +25,9 @@ export class ModalidadeRepository{
         if(index !== -1){
             this.modalidadePaes.splice(index, 1);
         }
+        else{
+            throw new Error("Modalidade não encontrada para exclusão");
+        }
     }
 
     public buscarPorID(id: number): ModalidadePaes | undefined{
@@ -33,5 +36,9 @@ export class ModalidadeRepository{
 
     public buscarPorNome(nome: string): ModalidadePaes | undefined{
         return this.modalidadePaes.find(modalidadePaes => modalidadePaes.getNome() === nome);
+    }
+
+    public possui(id: number): boolean{
+        return this.modalidadePaes.some(modalidadePaes => modalidadePaes.getID() === id);
     }
 }

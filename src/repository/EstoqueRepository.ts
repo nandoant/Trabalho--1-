@@ -51,5 +51,9 @@ export class EstoqueRepository{
         return this.estoquePaes.find(estoquePaes => estoquePaes.getModalidadeID() === modalidadeID);
     }
 
+    public possui(id: number): boolean{
+        return this.estoquePaes.some(estoquePaes => estoquePaes.getID() === id);
+    }
+
 
 }
