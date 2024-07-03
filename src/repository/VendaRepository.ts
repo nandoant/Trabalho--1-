@@ -7,7 +7,7 @@ export class VendaRepository {
         this.vendas.push(venda);
     }
 
-    public buscarPorID(id: number): VendaPaes | undefined {
+    public buscar(id: number): VendaPaes | undefined {
         return this.vendas.find(venda => venda.getID() === id);
     }
 }

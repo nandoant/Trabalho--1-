@@ -38,10 +38,10 @@ export class Inicializador{
     }
 
     public startVendas(){
-        const PaoFrances = this.estoque.buscarEstoqueIDPorModalidadeID(this.modalidade.buscarIDPorNome("pao frances"));
-        const PaoIntegral = this.estoque.buscarEstoqueIDPorModalidadeID(this.modalidade.buscarIDPorNome("pao integral"));
-        const PaoDeForma = this.estoque.buscarEstoqueIDPorModalidadeID(this.modalidade.buscarIDPorNome("pao de forma"));
-        const PaoDeTapioca = this.estoque.buscarEstoqueIDPorModalidadeID((this.modalidade.buscarIDPorNome("pao de tapioca")));
+        const PaoFrances = this.estoque.buscarEstoqueID(this.modalidade.buscarIDPorNome("pao frances"));
+        const PaoIntegral = this.estoque.buscarEstoqueID(this.modalidade.buscarIDPorNome("pao integral"));
+        const PaoDeForma = this.estoque.buscarEstoqueID(this.modalidade.buscarIDPorNome("pao de forma"));
+        const PaoDeTapioca = this.estoque.buscarEstoqueID((this.modalidade.buscarIDPorNome("pao de tapioca")));
 
         this.venda.realizarVenda({ cpf: "12345678901", itens: [{ estoquePaesID: PaoFrances, quantidade: 2 }, { estoquePaesID: PaoIntegral, quantidade: 2 }] });
         this.venda.realizarVenda({ cpf: "12345678902", itens: [{ estoquePaesID: PaoDeForma, quantidade: 2 }, { estoquePaesID: PaoDeTapioca, quantidade: 2 }] });

@@ -4,11 +4,16 @@ import { ModalidadeService } from "./ModalidadeService";
 import { EstoqueService } from "./EstoqueService";
 
 export class VendaService {
-    constructor(
-        private vendaRepository: VendaRepository,
-        private estoqueService: EstoqueService,
-        private modalidadeService: ModalidadeService
-    ) {}
+
+    private vendaRepository: VendaRepository;
+    private estoqueService: EstoqueService;
+    private modalidadeService: ModalidadeService;
+
+    constructor(vendaRepository: VendaRepository, estoqueService: EstoqueService, modalidadeService: ModalidadeService) {
+        this.vendaRepository = vendaRepository;
+        this.estoqueService = estoqueService;
+        this.modalidadeService = modalidadeService;
+    }
 
     public realizarVenda(vendaData: any): VendaPaes {
         const { cpf, itens } = vendaData;
@@ -56,7 +61,7 @@ export class VendaService {
         return venda;
     }
 
-    public buscarPorID(id: number): VendaPaes | undefined {
-        return this.vendaRepository.buscarPorID(id);
+    public buscar(id: number): VendaPaes | undefined {
+        return this.vendaRepository.buscar(id);
     }
 }

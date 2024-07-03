@@ -25,7 +25,7 @@ export class VendaController {
     public buscarVendaPorID = (req: Request, res: Response) => {
         try {
             const id = Number(req.query.id);
-            const venda = this.vendaService.buscarPorID(id);
+            const venda = this.vendaService.buscar(id);
             if (venda) {
                 res.status(200).json({
                     idVenda: venda.getID(),
