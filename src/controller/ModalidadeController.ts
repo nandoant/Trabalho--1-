@@ -8,8 +8,7 @@ export class ModalidadeController{
         this.modalidadeService = modalidadeService;
     }
 
-
-    public buscarTodasModalidades(req: Request, res: Response){
+    public buscarTodas(req: Request, res: Response){
         try{
             res.status(200).json(this.modalidadeService.buscarTodas());
         }catch(error:any){
@@ -17,7 +16,7 @@ export class ModalidadeController{
         }
     }
 
-    adicionarModalidade(req: Request, res: Response){
+    public adicionar(req: Request, res: Response){
         try{
             this.modalidadeService.adicionar(req.body);
             res.status(201).json({message: "Modalidade adicionada com sucesso!"});
@@ -26,25 +25,25 @@ export class ModalidadeController{
         }
     }
 
-    public atualizarModalidade(req: Request, res: Response){
+    public atualizar(req: Request, res: Response){
         try{
-            this.modalidadeService.atualizarModalidade(req.body);
+            this.modalidadeService.atualizar(req.body);
             res.status(200).json({message: "Modalidade atualizada com sucesso!"});
         }catch(error:any){
             res.status(400).json({message: error.message});
         }
     }
 
-    deletarModalidade(req: Request, res: Response){
+    public deletar(req: Request, res: Response){
         try{
-            this.modalidadeService.deletarModalidade(req.body);
+            this.modalidadeService.deletar(req.body);
             res.status(202).json({message: "Modalidade deletada com sucesso!"});
         }catch(error:any){
             res.status(400).json({message: error.message});
         }
     }
 
-    buscarModalidadePorID(req: Request, res: Response){
+    public buscarPorID(req: Request, res: Response){
         try{
             res.status(200).json(this.modalidadeService.buscarPorID(req.query.id));
         }catch(error:any){

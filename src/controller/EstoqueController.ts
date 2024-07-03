@@ -9,15 +9,15 @@ export class EstoqueController{
     }
 
 
-    buscarTodoEstoque(req: Request, res: Response){
+    public buscarTodos(req: Request, res: Response){
         try{
-            res.status(200).json(this.estoqueService.buscarTodoEstoque());
+            res.status(200).json(this.estoqueService.buscarTodos());
         }catch(error:any){
             res.status(400).json({message: error.message});
         }
     }
 
-    adicionarProduto(req: Request, res: Response){
+    public adicionar(req: Request, res: Response){
         try{
             this.estoqueService.adicionar(req.body);
             res.status(201).json({message: "Produto adicionado com sucesso!"});
@@ -26,7 +26,7 @@ export class EstoqueController{
         }
     }
 
-    atualizarQuantidade(req: Request, res: Response){
+    public atualizarQuantidade(req: Request, res: Response){
         try{
             this.estoqueService.atualizarQuantidade(req.body);
             res.status(200).json({message: "Produto adicionada com sucesso!"});
@@ -35,7 +35,8 @@ export class EstoqueController{
         }
     }
 
-    deletarQuantidade(req: Request, res: Response){
+
+    public deletarQuantidade(req: Request, res: Response){
         try{
             this.estoqueService.deletarQuantidade(req.body);
             res.status(202).json({message: "Quantidade deletada com sucesso!"});
@@ -44,7 +45,7 @@ export class EstoqueController{
         }
     }
 
-    buscarProdutoPorID(req: Request, res: Response){
+    public buscarPorID(req: Request, res: Response){
         try{
             res.status(200).json(this.estoqueService.buscarPorID(req.query.id));
         }catch(error:any){

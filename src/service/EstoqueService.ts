@@ -11,7 +11,7 @@ export class EstoqueService {
         this.modalidadeService = modalidadeService;
     }
 
-    private validarEstoqueData(ID?: number, modalidadeID?: number, quantidade?: number, precoVenda?: number): void {
+    private validarDados(ID?: number, modalidadeID?: number, quantidade?: number, precoVenda?: number): void {
         if (ID !== undefined && typeof ID !== "number") {
             throw new Error("ID inválido");
         }
@@ -28,14 +28,14 @@ export class EstoqueService {
 
     public adicionar(estoqueData: any): void {
         const { modalidadeID, quantidade, precoVenda } = estoqueData;
-        this.validarEstoqueData(undefined, modalidadeID, quantidade, precoVenda);
+        this.validarDados(undefined, modalidadeID, quantidade, precoVenda);
 
         if (this.produtoJaCadastrado(modalidadeID)) {
-            throw new Error("Produto já cadastrado!!!");
+            throw new Error("Estoque: Produto já cadastrado");
         }
 
         if (!this.modalidadeExiste(modalidadeID)) {
-            throw new Error("Modalidade não encontrada");
+            throw new Error("Estoque: Modalidade não encontrada");
         }
 
         const novoProduto = new EstoquePaes(modalidadeID, quantidade, precoVenda);
@@ -47,28 +47,32 @@ export class EstoqueService {
     }
 
 
-    public buscarTodoEstoque(): EstoquePaes[] {
+    public buscarTodos(): EstoquePaes[] {
         return this.estoqueRepository.buscarTodoEstoque().sort((a, b) => b.getPrecoVenda() - a.getPrecoVenda());
     }
 
     public atualizarQuantidade(estoqueData: any): void {
         const { ID, quantidade } = estoqueData;
-        this.validarEstoqueData(ID, undefined, quantidade);
+        this.validarDados(ID, undefined, quantidade);
 
-        const produto = this.buscarProdutoPorID(ID);
+        const produto = this.buscarPorID(ID);
         this.estoqueRepository.atualizarQuantidade(produto.getID(), quantidade);
     }
 
     public buscarPorID(id: any): EstoquePaes {
         const idNumber = parseInt(id, 10);
-        return this.buscarProdutoPorID(idNumber);
+        const produto = this.estoqueRepository.buscarPorID(idNumber);
+        if (!produto) {
+            throw new Error("Estoque: Produto não encontrado");
+        }
+        return produto;
     }
 
     public deletarQuantidade(estoqueData: any): void {
         const { id, quantidade } = estoqueData;
-        this.validarEstoqueData(id, undefined, quantidade);
+        this.validarDados(id, undefined, quantidade);
 
-        const produto = this.buscarProdutoPorID(id);
+        const produto = this.buscarPorID(id);
         this.estoqueRepository.deletarQuantidade(produto.getID(), quantidade);
     }
 
@@ -79,14 +83,6 @@ export class EstoqueService {
         }
 
         return estoque.getID();
-    }
-
-    private buscarProdutoPorID(id: number): EstoquePaes {
-        const produto = this.estoqueRepository.buscarPorID(id);
-        if (!produto) {
-            throw new Error("Produto não encontrado");
-        }
-        return produto;
     }
 
     private produtoJaCadastrado(modalidadeID: any): boolean {

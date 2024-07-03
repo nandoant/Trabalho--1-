@@ -46,16 +46,16 @@ function logInfo(){
 
 
 //api modalidade
-app.get("/api/modalidade/todas", (req, res) => modalidadeController.buscarTodasModalidades(req, res));
-app.get("/api/modalidade", (req, res) => modalidadeController.buscarModalidadePorID(req, res));
-app.post("/api/modalidade", (req, res) => modalidadeController.adicionarModalidade(req, res));
-app.put("/api/modalidade", (req, res) => modalidadeController.atualizarModalidade(req, res));
-app.delete("/api/modalidade", (req, res) => modalidadeController.deletarModalidade(req, res));
+app.get("/api/modalidade/todas", (req, res) => modalidadeController.buscarTodas(req, res));
+app.get("/api/modalidade", (req, res) => modalidadeController.buscarPorID(req, res));
+app.post("/api/modalidade", (req, res) => modalidadeController.adicionar(req, res));
+app.put("/api/modalidade", (req, res) => modalidadeController.atualizar(req, res));
+app.delete("/api/modalidade", (req, res) => modalidadeController.deletar(req, res));
 
 //api estoque
-app.get("/api/estoque/todos", (req, res) => estoqueController.buscarTodoEstoque(req,res));
-app.get("/api/estoque", (req, res) =>estoqueController.buscarProdutoPorID(req,res));
-app.post("/api/estoque", (req, res) => estoqueController.adicionarProduto(req,res));
+app.get("/api/estoque/todos", (req, res) => estoqueController.buscarTodos(req,res));
+app.get("/api/estoque", (req, res) =>estoqueController.buscarPorID(req,res));
+app.post("/api/estoque", (req, res) => estoqueController.adicionar(req,res));
 app.put("/api/estoque", (req, res) => estoqueController.atualizarQuantidade(req,res));
 app.delete("/api/estoque", (req, res) => estoqueController.deletarQuantidade(req,res));
 
