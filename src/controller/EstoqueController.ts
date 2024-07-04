@@ -49,7 +49,7 @@ export class EstoqueController{
         try{
             res.status(200).json(this.estoqueService.buscarPorID(req.query.id));
         }catch(error:any){
-            res.status(400).json({message: error.message});
+            res.status(404).json({message: error.message});
         }
     }
 }

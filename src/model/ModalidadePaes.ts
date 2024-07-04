@@ -1,12 +1,12 @@
 export class ModalidadePaes{
-    private ID: number;
+    private id: number;
     private nome: string;
     private vegano: boolean;
 
     constructor(nome: string, vegano: boolean){
         this.nome = nome;
         this.vegano = vegano;
-        this.ID = this.geraId();
+        this.id = this.geraId();
     }
 
     public geraId(): number {
@@ -30,7 +30,7 @@ export class ModalidadePaes{
     }
 
     public getID(): number{
-        return this.ID;
+        return this.id;
     }
 
     public setNome(nome: string): void{

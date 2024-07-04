@@ -14,7 +14,7 @@ export class ModalidadeRepository{
     public atualizar(modalidadePaes: ModalidadePaes): void{
         const index = this.modalidadePaes.indexOf(modalidadePaes);
         if(index !== -1){
-            this.modalidadePaes[index] = modalidadePaes;
+            this.modalidadePaes[index].setVegano(modalidadePaes.isVegano());
         }else{
             throw new Error("Modalidade não encontrada para atualização");
         }

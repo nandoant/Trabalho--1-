@@ -1,5 +1,5 @@
 export class EstoquePaes{
-    private ID: number;
+    private id: number;
     private modalidadeID: number;
     private quantidade: number;
     private precoVenda: number;
@@ -8,7 +8,7 @@ export class EstoquePaes{
         this.modalidadeID = modalidadeID;
         this.quantidade = quantidade;
         this.precoVenda = precoVenda;
-        this.ID = this.geraId();
+        this.id = this.geraId();
     }
 
     public geraId(): number {
@@ -30,7 +30,7 @@ export class EstoquePaes{
     }
 
     public getID(): number{
-        return this.ID;
+        return this.id;
     }
 
     public setPrecoVenda(precoVenda: number): void{

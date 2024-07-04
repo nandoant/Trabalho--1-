@@ -40,10 +40,13 @@ export class EstoqueService {
     }
 
     public atualizarQuantidade(estoqueData: any): void {
-        const { ID, quantidade } = estoqueData;
-        this.validarDados(ID, undefined, quantidade);
+        const { id, modalidadeID, quantidade, precoVenda } = estoqueData;
+        this.validarDados(id, modalidadeID, quantidade, precoVenda);
 
-        const produto = this.buscarPorID(ID);
+        const produto = this.buscarPorID(id);
+        if(produto.getPrecoVenda() !== precoVenda || produto.getModalidadeID() !== modalidadeID)
+            throw new Error("Estoque: Produto não pode ter seu preço de venda ou modalidade alterados");
+
         this.estoqueRepository.atualizarQuantidade(produto.getID(), quantidade);
     }
 
@@ -56,10 +59,13 @@ export class EstoqueService {
     }
 
     public deletarQuantidade(estoqueData: any): void {
-        const { id, quantidade } = estoqueData;
+        const { id, quantidade, precoVenda, modalidadeID } = estoqueData;
         this.validarDados(id, undefined, quantidade);
 
         const produto = this.buscarPorID(id);
+        if(produto.getPrecoVenda() !== precoVenda || produto.getModalidadeID() !== modalidadeID)
+            throw new Error("Estoque: Informações invalidas para deletar quantidade");
+
         this.estoqueRepository.deletarQuantidade(produto.getID(), quantidade);
     }
 

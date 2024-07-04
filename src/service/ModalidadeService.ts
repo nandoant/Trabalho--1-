@@ -50,6 +50,7 @@ export class ModalidadeService{
         this.validarDados(id, nome, vegano);
 
         const modalidade = this.buscarPorID(id);
+        if(modalidade.getNome() !== nome || modalidade.isVegano() !== vegano) throw new Error("Dados da modalidade não conferem");
         
         this.modalidadeRepository.deletar(modalidade);
     }
