@@ -69,7 +69,7 @@ export class VendaService {
     }
 
     private buscarModalidade(estoque: EstoquePaes): ModalidadePaes{
-        const modalidade = this.modalidadeService.buscarPorID({ id: estoque.getModalidadeID() });
+        const modalidade = this.modalidadeService.buscarPorID(estoque.getModalidadeID());
         if (modalidade === undefined) {
             throw new Error(`Modalidade não encontrada para o item ${estoque.getID()}`);
         }

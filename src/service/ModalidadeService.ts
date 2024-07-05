@@ -32,6 +32,7 @@ export class ModalidadeService{
         if(!id ||!nome || vegano === undefined) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
+
         if(modalidade === undefined) 
             throw new Error(`Modalidade: Modalidade com ID ${id} não encontrada`);
         if(modalidade.getNome() !== nome) 
@@ -53,9 +54,8 @@ export class ModalidadeService{
         if(!sucesso) throw new Error(`Modalidade: Modalidade com ID ${id} não encontrada`);
     }
 
-    public buscarPorID(modalidadeData: any): ModalidadePaes | undefined{
-        const {id} = modalidadeData;
-        const idNumber = parseInt(id);
+    public buscarPorID(id: any): ModalidadePaes | undefined{
+        const idNumber = parseInt(id, 10);
         let modalidade = this.modalidadeRepository.buscarPorID(idNumber);
         
         return modalidade;
