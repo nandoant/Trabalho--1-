@@ -36,6 +36,7 @@ export class ModalidadeService{
 
     public atualizar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
+        if(!nome || !vegano) throw new Error("Informações faltando!");
         this.validarDados(id, nome, vegano);
 
         const modalidade = this.buscarPorID(id);
@@ -50,7 +51,6 @@ export class ModalidadeService{
         this.validarDados(id, nome, vegano);
 
         const modalidade = this.buscarPorID(id);
-        if(modalidade.getNome() !== nome || modalidade.isVegano() !== vegano) throw new Error("Dados da modalidade não conferem");
         
         this.modalidadeRepository.deletar(modalidade);
     }

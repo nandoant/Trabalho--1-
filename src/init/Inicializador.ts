@@ -13,6 +13,7 @@ export class Inicializador{
         this.venda = venda;
     }
 
+    //ADICIONAR os dados que faltam para não falhar os testes
     public start(){
         this.startModalidades();
         this.startEstoque();

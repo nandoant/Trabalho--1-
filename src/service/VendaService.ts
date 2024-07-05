@@ -25,6 +25,7 @@ export class VendaService {
         let total = 0;
         let estoqueDatas: { quantidade: number, id: number }[] = [];
         const itensProcessados = itens.map(item => {
+            if(item.quantidade <= 0 || !item.estoquePaesID || !item.quantidade) throw new Error(`Dados inválidos para o item ${item.estoquePaesID}`);
             const estoque = this.estoqueService.buscarPorID(item.estoquePaesID);
             if (!estoque || estoque.getQuantidade() < item.quantidade) {
                 throw new Error(`Estoque insuficiente para o item ${item.estoquePaesID}`);

@@ -15,12 +15,12 @@ export class EstoqueService {
         if (ID !== undefined && typeof ID !== "number") throw new Error("ID inválido");
         if (modalidadeID !== undefined && typeof modalidadeID !== "number") throw new Error("ModalidadeID inválido");
         if (quantidade !== undefined && typeof quantidade !== "number") throw new Error("Quantidade inválida");
-        if (precoVenda !== undefined && typeof precoVenda !== "number") throw new Error("Preço de Venda inválido");
-        
+        if (precoVenda !== undefined && typeof precoVenda !== "number") throw new Error("Preço de Venda inválido");  
     }
 
     public adicionar(estoqueData: any): void {
         const { modalidadeID, quantidade, precoVenda } = estoqueData;
+        if(!modalidadeID || !quantidade || !precoVenda) throw new Error("Informações faltando!");
         this.validarDados(undefined, modalidadeID, quantidade, precoVenda);
 
         if (this.produtoJaCadastrado(modalidadeID)) throw new Error("Estoque: Produto já cadastrado");
@@ -63,8 +63,6 @@ export class EstoqueService {
         this.validarDados(id, undefined, quantidade);
 
         const produto = this.buscarPorID(id);
-        if(produto.getPrecoVenda() !== precoVenda || produto.getModalidadeID() !== modalidadeID)
-            throw new Error("Estoque: Informações invalidas para deletar quantidade");
 
         this.estoqueRepository.deletarQuantidade(produto.getID(), quantidade);
     }
