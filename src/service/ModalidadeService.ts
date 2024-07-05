@@ -14,6 +14,8 @@ export class ModalidadeService{
 
     public adicionar(modalidadeData: any): void{
         const {nome, vegano} = modalidadeData;
+        if(!nome || !vegano) 
+            throw new Error("Modalidade: Informações faltando! Necessário: nome e vegano");
 
         const modalidadeEncontrada = this.modalidadeRepository.buscarPorNome(nome);
         if(modalidadeEncontrada) throw new Error("Modalidade: Modalidade já cadastrada!!!");
@@ -29,7 +31,8 @@ export class ModalidadeService{
 
     public atualizar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        if(!id ||!nome || vegano === undefined) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
+        if(!id ||!nome || vegano === undefined) 
+            throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
 
@@ -44,7 +47,8 @@ export class ModalidadeService{
 
     public deletar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        if(!id ||!nome || vegano === undefined) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
+        if(!id ||!nome || vegano === undefined) 
+            throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
         if(modalidade === undefined) 

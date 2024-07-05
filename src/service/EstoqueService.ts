@@ -38,6 +38,8 @@ export class EstoqueService {
 
     public atualizarQuantidade(estoqueData: any): void {
         const { id, quantidade } = estoqueData;
+        if(!id || !quantidade) 
+            throw new Error("Estoque: Informações faltando! Necessário: id e quantidade");
 
         if (quantidade <= 0) 
             throw new Error("Estoque: Quantidade a ser atualizada não pode ser negativa ou igual a zero");
@@ -56,6 +58,8 @@ export class EstoqueService {
 
     public deletarQuantidade(estoqueData: any): void {
         const { id, quantidade} = estoqueData;
+        if(!id || !quantidade) 
+            throw new Error("Estoque: Informações faltando! Necessário: id e quantidade");
 
         if(quantidade < 0) throw new Error("Estoque: Quantidade a ser removida não pode ser negativa");
 
