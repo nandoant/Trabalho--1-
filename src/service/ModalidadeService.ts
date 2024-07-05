@@ -29,7 +29,7 @@ export class ModalidadeService{
 
     public atualizar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        if(!id ||!nome || !vegano) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
+        if(!id ||!nome || vegano === undefined) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
         if(modalidade === undefined) 
@@ -43,7 +43,7 @@ export class ModalidadeService{
 
     public deletar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        if(!id ||!nome || !vegano) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
+        if(!id ||!nome || vegano === undefined) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
         if(modalidade === undefined) 
