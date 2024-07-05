@@ -19,8 +19,10 @@ export class EstoqueService {
 
         if (this.produtoJaCadastrado(modalidadeID)) 
             throw new Error(`Estoque: Produto com modalidadeID ${modalidadeID} já cadastrado`);
-        if (!this.modalidadeExiste(modalidadeID)) 
+        if (this.modalidadeExistente(modalidadeID)) 
             throw new Error(`Estoque: Modalidade com ID ${modalidadeID} não encontrada`);
+        if(precoVenda <= 0)
+            throw new Error("Estoque: Preço de venda não pode ser menor ou igual a zero");
         
 
         const novoProduto = new EstoquePaes(modalidadeID, quantidade, precoVenda);
@@ -38,8 +40,8 @@ export class EstoqueService {
     public atualizarQuantidade(estoqueData: any): void {
         const { id, quantidade } = estoqueData;
 
-        if (quantidade < 0) 
-            throw new Error("Estoque: Quantidade a ser atualizada não pode ser negativa");
+        if (quantidade <= 0) 
+            throw new Error("Estoque: Quantidade a ser atualizada não pode ser negativa ou igual a zero");
 
         const sucesso = this.estoqueRepository.atualizarQuantidade(id, quantidade);
         if (!sucesso) throw new Error(`Estoque: Produto com ID ${id} não encontrado`);
@@ -77,7 +79,7 @@ export class EstoqueService {
         return this.estoqueRepository.buscarPorModalidadeID(modalidadeIDNumber) !== undefined;
     }
 
-    private modalidadeExiste(modalidadeID: number): boolean {
-        return this.modalidadeService.buscarPorID(modalidadeID) === undefined;
+    private modalidadeExistente(modalidadeID: number): boolean {
+        return this.modalidadeService.buscarPorID(modalidadeID) !== undefined;
     }
 }

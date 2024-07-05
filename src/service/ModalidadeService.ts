@@ -56,7 +56,7 @@ export class ModalidadeService{
     public buscarPorID(modalidadeData: any): ModalidadePaes | undefined{
         const {id} = modalidadeData;
         const idNumber = parseInt(id);
-        const modalidade = this.modalidadeRepository.buscarPorID(idNumber);
+        let modalidade = this.modalidadeRepository.buscarPorID(idNumber);
         
         return modalidade;
     }
