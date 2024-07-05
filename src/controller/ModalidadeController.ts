@@ -27,7 +27,7 @@ export class ModalidadeController{
 
     public atualizar(req: Request, res: Response){
         try{
-            this.modalidadeService.atualizar(req.query.id);
+            this.modalidadeService.atualizar(req.body);
             res.status(200).json({message: "Modalidade atualizada com sucesso!"});
         }catch(error:any){
             res.status(400).json({message: error.message});
