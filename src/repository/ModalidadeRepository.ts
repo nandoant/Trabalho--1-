@@ -11,23 +11,22 @@ export class ModalidadeRepository{
         this.modalidadePaes.push(modalidadePaes);
     }
 
-    public atualizar(modalidadePaes: ModalidadePaes): void{
+    public atualizar(modalidadePaes: ModalidadePaes): boolean{
         const index = this.modalidadePaes.indexOf(modalidadePaes);
         if(index !== -1){
             this.modalidadePaes[index].setVegano(modalidadePaes.isVegano());
-        }else{
-            throw new Error("Modalidade não encontrada para atualização");
+            return true;
         }
+        return false;
     }
 
-    public deletar(modalidadePaes: ModalidadePaes): void{
+    public deletar(modalidadePaes: ModalidadePaes): boolean{
         const index = this.modalidadePaes.indexOf(modalidadePaes);
         if(index !== -1){
             this.modalidadePaes.splice(index, 1);
+            return true;
         }
-        else{
-            throw new Error("Modalidade não encontrada para exclusão");
-        }
+        return false;
     }
 
     public buscarPorID(id: number): ModalidadePaes | undefined{

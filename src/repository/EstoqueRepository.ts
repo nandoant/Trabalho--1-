@@ -19,27 +19,23 @@ export class EstoqueRepository{
         return this.estoquePaes.find(estoquePaes => estoquePaes.getModalidadeID() === modalidadeID);
     }
 
-    public atualizarQuantidade(id: number, incrementarQuantidade: number): void{
+    public atualizarQuantidade(id: number, incrementarQuantidade: number): boolean {
         const produto = this.buscarPorID(id);
-
-        if(produto === undefined) throw new Error("Estoque não encontrado para atualização");
-        if(incrementarQuantidade < 0) new Error("Quantidade a ser atualizada não pode ser negativa");
+        if (produto === undefined) return false;
         
-
         const indexProduto = this.estoquePaes.indexOf(produto);
         this.estoquePaes[indexProduto].setQuantidade(this.estoquePaes[indexProduto].getQuantidade() + incrementarQuantidade);
+        return true;
     }
 
-    public deletarQuantidade(id:number, removerQuantidade: number): void{
+    public deletarQuantidade(id:number, removerQuantidade: number): boolean {
         const produto = this.buscarPorID(id);
+        if (produto === undefined) return false;
+        if (produto.getQuantidade() < removerQuantidade) return false;
         
-        if(produto === undefined)throw new Error("Estoque não encontrado para remoção");
-        if(removerQuantidade < 0) throw new Error("Quantidade a ser removida não pode ser negativa");
-        if(produto.getQuantidade() < removerQuantidade) throw new Error("Quantidade a ser removida é maior que a quantidade em estoque");
-        
-
         const indexProduto = this.estoquePaes.indexOf(produto);
         this.estoquePaes[indexProduto].setQuantidade(this.estoquePaes[indexProduto].getQuantidade() - removerQuantidade);
+        return true;
     }
 
     public possui(id: number): boolean{

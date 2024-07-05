@@ -11,20 +11,16 @@ export class EstoqueService {
         this.modalidadeService = modalidadeService;
     }
 
-    private validarDados(ID?: number, modalidadeID?: number, quantidade?: number, precoVenda?: number): void {
-        if (ID !== undefined && typeof ID !== "number") throw new Error("ID inválido");
-        if (modalidadeID !== undefined && typeof modalidadeID !== "number") throw new Error("ModalidadeID inválido");
-        if (quantidade !== undefined && typeof quantidade !== "number") throw new Error("Quantidade inválida");
-        if (precoVenda !== undefined && typeof precoVenda !== "number") throw new Error("Preço de Venda inválido");  
-    }
 
     public adicionar(estoqueData: any): void {
         const { modalidadeID, quantidade, precoVenda } = estoqueData;
-        if(!modalidadeID || !quantidade || !precoVenda) throw new Error("Informações faltando!");
-        this.validarDados(undefined, modalidadeID, quantidade, precoVenda);
+        if(!modalidadeID || !quantidade || !precoVenda) 
+            throw new Error("Estoque: Informações faltando! Necessário: modalidadeID, quantidade, precoVenda");
 
-        if (this.produtoJaCadastrado(modalidadeID)) throw new Error("Estoque: Produto já cadastrado");
-        if (!this.modalidadeExiste(modalidadeID)) throw new Error("Estoque: Modalidade não encontrada");
+        if (this.produtoJaCadastrado(modalidadeID)) 
+            throw new Error(`Estoque: Produto com modalidadeID ${modalidadeID} já cadastrado`);
+        if (!this.modalidadeExiste(modalidadeID)) 
+            throw new Error(`Estoque: Modalidade com ID ${modalidadeID} não encontrada`);
         
 
         const novoProduto = new EstoquePaes(modalidadeID, quantidade, precoVenda);
@@ -40,40 +36,40 @@ export class EstoqueService {
     }
 
     public atualizarQuantidade(estoqueData: any): void {
-        const { id, modalidadeID, quantidade, precoVenda } = estoqueData;
-        this.validarDados(id, modalidadeID, quantidade, precoVenda);
+        const { id, quantidade } = estoqueData;
 
-        const produto = this.buscarPorID(id);
-        if(produto.getPrecoVenda() !== precoVenda || produto.getModalidadeID() !== modalidadeID)
-            throw new Error("Estoque: Produto não pode ter seu preço de venda ou modalidade alterados");
+        if (quantidade < 0) 
+            throw new Error("Estoque: Quantidade a ser atualizada não pode ser negativa");
 
-        this.estoqueRepository.atualizarQuantidade(produto.getID(), quantidade);
+        const sucesso = this.estoqueRepository.atualizarQuantidade(id, quantidade);
+        if (!sucesso) throw new Error(`Estoque: Produto com ID ${id} não encontrado`);
     }
 
     public buscarPorID(id: any): EstoquePaes {
         const idNumber = parseInt(id, 10);
         const produto = this.estoqueRepository.buscarPorID(idNumber);
-        if (!produto) throw new Error("Estoque: Produto não encontrado");
+        if (!produto) throw new Error(`Estoque: Produto com ID ${id} não encontrado`);
         
         return produto;
     }
 
     public deletarQuantidade(estoqueData: any): void {
-        const { id, quantidade, precoVenda, modalidadeID } = estoqueData;
-        this.validarDados(id, undefined, quantidade);
+        const { id, quantidade} = estoqueData;
 
-        const produto = this.buscarPorID(id);
+        if(quantidade < 0) throw new Error("Estoque: Quantidade a ser removida não pode ser negativa");
 
-        this.estoqueRepository.deletarQuantidade(produto.getID(), quantidade);
+        const produto = this.estoqueRepository.buscarPorID(id);
+        if(produto === undefined) 
+            throw new Error(`Estoque: Produto com ID ${id} não encontrado`);
+        else if(produto.getQuantidade() < quantidade) 
+            throw new Error(`Estoque: Produto com ID ${id} não possui quantidade suficiente`);
+
+        this.estoqueRepository.deletarQuantidade(id, quantidade);
     }
 
     public buscarEstoqueID(modalidadeID: number): number | undefined {
         const estoque = this.estoqueRepository.buscarPorModalidadeID(modalidadeID);
-        if (estoque === undefined) {
-            return undefined;
-        }
-
-        return estoque.getID();
+        return estoque?.getID();
     }
 
     private produtoJaCadastrado(modalidadeID: any): boolean {
@@ -82,6 +78,6 @@ export class EstoqueService {
     }
 
     private modalidadeExiste(modalidadeID: number): boolean {
-        return !!this.modalidadeService.buscarPorID(modalidadeID);
+        return this.modalidadeService.buscarPorID(modalidadeID) === undefined;
     }
 }

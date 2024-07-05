@@ -8,22 +8,15 @@ export class ModalidadeService{
         this.modalidadeRepository = modalidadeRepository;
     }
 
-    private validarDados(id?: number, nome?: string, vegano?: boolean): void {
-        if (id !== undefined && (!id || typeof id !== "number")) throw new Error("ID inválido");
-        if(!nome || typeof nome !== "string") throw new Error("Nome inválido");
-        if(vegano === undefined || typeof vegano !== "boolean") throw new Error("Vegano inválido");
-    }
-
     public buscarTodas(): ModalidadePaes[]{
         return this.modalidadeRepository.buscarTodas();
     }
 
     public adicionar(modalidadeData: any): void{
         const {nome, vegano} = modalidadeData;
-        this.validarDados(undefined, nome, vegano);
 
         const modalidadeEncontrada = this.modalidadeRepository.buscarPorNome(nome);
-        if(modalidadeEncontrada) throw new Error("Modalidade já cadastrada!!!");
+        if(modalidadeEncontrada) throw new Error("Modalidade: Modalidade já cadastrada!!!");
         
 
         const novaModalidade = new ModalidadePaes(nome, vegano);
@@ -36,11 +29,13 @@ export class ModalidadeService{
 
     public atualizar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        if(!nome || !vegano) throw new Error("Informações faltando!");
-        this.validarDados(id, nome, vegano);
+        if(!id ||!nome || !vegano) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
-        if(modalidade.getNome() !== nome) throw new Error("Nome da modalidade não pode ser alterado");
+        if(modalidade === undefined) 
+            throw new Error(`Modalidade: Modalidade com ID ${id} não encontrada`);
+        if(modalidade.getNome() !== nome) 
+            throw new Error("Modalidade: Nome da modalidade não pode ser alterado");
         
         modalidade.setVegano(vegano);
         this.modalidadeRepository.atualizar(modalidade);
@@ -48,17 +43,20 @@ export class ModalidadeService{
 
     public deletar(modalidadeData: any): void{
         const {id, nome, vegano} = modalidadeData;
-        this.validarDados(id, nome, vegano);
+        if(!id ||!nome || !vegano) throw new Error("Modalidade: Informações faltando! Necessário: id, nome, vegano");
 
         const modalidade = this.buscarPorID(id);
+        if(modalidade === undefined) 
+            throw new Error(`Modalidade: Modalidade com ID ${id} não encontrada`);
         
-        this.modalidadeRepository.deletar(modalidade);
+        const sucesso = this.modalidadeRepository.deletar(modalidade);
+        if(!sucesso) throw new Error(`Modalidade: Modalidade com ID ${id} não encontrada`);
     }
 
-    public buscarPorID(id: any): ModalidadePaes{
+    public buscarPorID(modalidadeData: any): ModalidadePaes | undefined{
+        const {id} = modalidadeData;
         const idNumber = parseInt(id);
         const modalidade = this.modalidadeRepository.buscarPorID(idNumber);
-        if(!modalidade) throw new Error("Modalidade não encontrada");
         
         return modalidade;
     }

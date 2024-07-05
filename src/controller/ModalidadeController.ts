@@ -45,7 +45,9 @@ export class ModalidadeController{
 
     public buscarPorID(req: Request, res: Response){
         try{
-            res.status(200).json(this.modalidadeService.buscarPorID(req.query.id));
+            const sucesso = this.modalidadeService.buscarPorID(req.query.id);
+            if(sucesso === undefined) throw new Error("Modalidade não encontrada");
+            res.status(200).json(sucesso);
         }catch(error:any){
             res.status(404).json({message: error.message});
         }
